@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExactSize | 100% Accurate PDF & Image Compressor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-mesh"></div>
+    <div class="container">
+        <header>
+            <h1>ExactSize <span class="badge">PRO</span></h1>
+            <p>100% accurate file size compression for PDFs and Images. Down to the exact byte.</p>
+        </header>
+
+        <main class="glass-card">
+            <div class="upload-area" id="drop-zone">
+                <input type="file" id="file-input" accept=".pdf,.jpg,.jpeg,.png,.webp" hidden>
+                <div class="upload-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                </div>
+                <h3>Drag & Drop your file here</h3>
+                <p>or click to browse</p>
+                <span class="file-types">Supports PDF, JPG, PNG, WEBP</span>
+            </div>
+
+            <div class="file-details hidden" id="file-details">
+                <div class="file-info">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                        <polyline points="13 2 13 9 20 9"></polyline>
+                    </svg>
+                    <div>
+                        <span id="file-name">example.pdf</span>
+                        <span id="file-original-size">5.2 MB</span>
+                    </div>
+                </div>
+                <button class="icon-btn remove-btn" id="remove-btn" title="Remove file">✕</button>
+            </div>
+
+            <div class="settings-area">
+                <div class="input-group">
+                    <label for="target-size">Target Size</label>
+                    <div class="size-input-wrapper">
+                        <input type="number" id="target-size" placeholder="e.g. 500" min="1" step="0.1">
+                        <select id="size-unit">
+                            <option value="KB">KB</option>
+                            <option value="MB">MB</option>
+                        </select>
+                    </div>
+                    <small class="helper-text">Enter the exact target size. Guaranteed accurate output.</small>
+                </div>
+            </div>
+
+            <button id="compress-btn" class="primary-btn" disabled>
+                <span>Compress File</span>
+                <div class="loader hidden"></div>
+            </button>
+            
+            <div id="status-message" class="status-message hidden"></div>
+        </main>
+        
+        <footer>
+            Built with ❤️ using Python and Flask
+        </footer>
+    </div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
