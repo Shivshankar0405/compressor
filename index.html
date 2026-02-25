@@ -12,7 +12,36 @@
 
 <body>
     <div class="background-mesh"></div>
-    <div class="container">
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                ExactSize
+            </div>
+            <div class="nav-links">
+                <a href="#about">About Developer</a>
+                <div class="view-counter">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <span id="views-count">Loading...</span> Views
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container animate-in">
         <header>
             <h1>ExactSize <span class="badge">PRO</span></h1>
             <p>100% accurate file size compression for PDFs and Images. Down to the exact byte.</p>
@@ -68,9 +97,21 @@
 
             <div id="status-message" class="status-message hidden"></div>
         </main>
+        <section id="about" class="about-section glass-card animate-in delay-2">
+            <h2>About Developer</h2>
+            <div class="dev-profile">
+                <div class="dev-avatar">SM</div>
+                <div class="dev-info">
+                    <h3>Shivshankar Malleshe</h3>
+                    <p>Designed and Built by Shivshankar.</p>
+                </div>
+            </div>
+        </section>
 
         <footer>
-            Built with ❤️ using Python and Flask
+            <div class="footer-content">
+                <p>&copy; 2026 ExactSize Compressor. All rights reserved.</p>
+            </div>
         </footer>
     </div>
 
