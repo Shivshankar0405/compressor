@@ -188,20 +188,19 @@ document.addEventListener('DOMContentLoaded', () => {
         statusMessage.classList.add('hidden');
     }
 
-    // View Counter Logic (Simulated using LocalStorage for frontend-only demo)
-    // In a real production app, this would hit the backend API
+    const API_BASE_URL = 'https://compressor-api-3771.onrender.com';
+
+    // Live View Counter Logic connected to the backend
     const viewsCountElement = document.getElementById('views-count');
     if (viewsCountElement) {
-        let currentViews = localStorage.getItem('exactsize_views');
-        if (!currentViews) {
-            // Start at a random high number to look good
-            currentViews = Math.floor(Math.random() * 500) + 1200;
-        } else {
-            currentViews = parseInt(currentViews) + 1;
-        }
-        localStorage.setItem('exactsize_views', currentViews);
-
-        // Format with commas
-        viewsCountElement.textContent = currentViews.toLocaleString();
+        fetch(`${API_BASE_URL}/api/views`, { method: 'POST' })
+            .then(res => res.json())
+            .then(data => {
+                viewsCountElement.textContent = data.views.toLocaleString();
+            })
+            .catch(err => {
+                console.error("Failed to fetch views", err);
+                viewsCountElement.textContent = "Error";
+            });
     }
 });

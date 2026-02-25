@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, render_template, request, jsonify, send_file
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
@@ -11,9 +12,37 @@ app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # 50 MB max
 
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
+VIEWS_FILE = 'views.json'
+
+def get_views():
+    if os.path.exists(VIEWS_FILE):
+        try:
+            with open(VIEWS_FILE, 'r') as f:
+                return json.load(f).get('views', 0)
+        except:
+            return 0
+    return 0
+
+def increment_views():
+    views = get_views() + 1
+    try:
+        with open(VIEWS_FILE, 'w') as f:
+            json.dump({'views': views}, f)
+    except:
+        pass
+    return views
+
 @app.route('/')
 def index():
     return jsonify({"status": "API is running"}), 200
+
+@app.route('/api/views', methods=['GET', 'POST'])
+def views():
+    if request.method == 'POST':
+        v = increment_views()
+    else:
+        v = get_views()
+    return jsonify({"views": v})
 
 @app.route('/api/compress', methods=['POST'])
 def compress():
