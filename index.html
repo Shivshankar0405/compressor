@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ExactSize | 100% Accurate PDF & Image Compressor</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="./style.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="background-mesh"></div>
     <div class="container">
@@ -63,15 +65,16 @@
                 <span>Compress File</span>
                 <div class="loader hidden"></div>
             </button>
-            
+
             <div id="status-message" class="status-message hidden"></div>
         </main>
-        
+
         <footer>
             Built with ❤️ using Python and Flask
         </footer>
     </div>
-    
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <script src="./script.js"></script>
 </body>
+
 </html>

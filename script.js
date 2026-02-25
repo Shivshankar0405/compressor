@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (files.length > 0) {
             const file = files[0];
             const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
-            
+
             if (validTypes.includes(file.type) || file.name.match(/\.(pdf|jpg|jpeg|png|webp)$/i)) {
                 currentFile = file;
                 displayFileDetails(file);
@@ -114,8 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const originalSizeKB = currentFile.size / 1024;
         if (targetSizeKB >= originalSizeKB) {
-             showStatus("Target size should be smaller than the original size for compression.", "error");
-             return;
+            showStatus("Target size should be smaller than the original size for compression.", "error");
+            return;
         }
 
         const formData = new FormData();
@@ -128,22 +128,25 @@ document.addEventListener('DOMContentLoaded', () => {
         hideStatus();
 
         try {
-            const response = await fetch('/api/compress', {
+            // Replace this with your actual Render URL when deploying (e.g., 'https://your-app-name.onrender.com')
+            const API_BASE_URL = 'http://127.0.0.1:5000';
+
+            const response = await fetch(`${API_BASE_URL}/api/compress`, {
                 method: 'POST',
                 body: formData
             });
 
             if (response.ok) {
                 const blob = await response.blob();
-                
+
                 const finalSizeArr = formatBytes(blob.size);
-                
+
                 const disposition = response.headers.get('Content-Disposition');
                 let targetFilename = "compressed_file";
                 if (disposition && disposition.indexOf('attachment') !== -1) {
                     var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
                     var matches = filenameRegex.exec(disposition);
-                    if (matches != null && matches[1]) { 
+                    if (matches != null && matches[1]) {
                         targetFilename = matches[1].replace(/['"]/g, '');
                     }
                 } else {
