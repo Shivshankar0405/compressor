@@ -12,37 +12,46 @@ app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # 50 MB max
 
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-VIEWS_FILE = 'views.json'
+STATS_FILE = 'stats.json'
+INITIAL_STATS = {'views': 10, 'pdfs': 5, 'images': 3}
 
-def get_views():
-    if os.path.exists(VIEWS_FILE):
+def get_stats():
+    if os.path.exists(STATS_FILE):
         try:
-            with open(VIEWS_FILE, 'r') as f:
-                return json.load(f).get('views', 0)
+            with open(STATS_FILE, 'r') as f:
+                data = json.load(f)
+                for k, v in INITIAL_STATS.items():
+                    if k not in data:
+                        data[k] = v
+                return data
         except:
-            return 0
-    return 0
+            pass
+    return INITIAL_STATS.copy()
 
-def increment_views():
-    views = get_views() + 1
+def save_stats(stats):
     try:
-        with open(VIEWS_FILE, 'w') as f:
-            json.dump({'views': views}, f)
+        with open(STATS_FILE, 'w') as f:
+            json.dump(stats, f)
     except:
         pass
-    return views
+
+def increment_stat(stat_name):
+    stats = get_stats()
+    stats[stat_name] = stats.get(stat_name, 0) + 1
+    save_stats(stats)
+    return stats
 
 @app.route('/')
 def index():
     return jsonify({"status": "API is running"}), 200
 
-@app.route('/api/views', methods=['GET', 'POST'])
-def views():
+@app.route('/api/stats', methods=['GET', 'POST'])
+def stats():
     if request.method == 'POST':
-        v = increment_views()
+        s = increment_stat('views')
     else:
-        v = get_views()
-    return jsonify({"views": v})
+        s = get_stats()
+    return jsonify(s)
 
 @app.route('/api/compress', methods=['POST'])
 def compress():
@@ -68,6 +77,13 @@ def compress():
             output_path = compress_file(input_path, target_size_bytes)
             if output_path is None:
                 return jsonify({'error': 'Failed to compress file to target size.'}), 500
+            
+            # Increment stats based on file type
+            ext = os.path.splitext(filename)[1].lower()
+            if ext == '.pdf':
+                increment_stat('pdfs')
+            elif ext in ['.jpg', '.jpeg', '.png', '.webp']:
+                increment_stat('images')
             
             return send_file(output_path, as_attachment=True)
         except Exception as e:

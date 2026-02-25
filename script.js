@@ -164,6 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.removeChild(a);
 
                 showStatus(`Success! Compressed file size is exactly ${blob.size} bytes (${finalSizeArr}). Download starting...`, 'success');
+                updateStats(false); // Refresh the counters
             } else {
                 const errorData = await response.json();
                 showStatus(errorData.error || 'Failed to compress file.', 'error');
@@ -190,17 +191,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const API_BASE_URL = 'https://compressor-api-3771.onrender.com';
 
-    // Live View Counter Logic connected to the backend
-    const viewsCountElement = document.getElementById('views-count');
-    if (viewsCountElement) {
-        fetch(`${API_BASE_URL}/api/views`, { method: 'POST' })
+    // Live Stats Logic connected to the backend
+    function updateStats(isNewView = false) {
+        const method = isNewView ? 'POST' : 'GET';
+        // Add cache-buster to prevent mobile browsers from aggressively caching the old response
+        const cacheBuster = `?t=${new Date().getTime()}`;
+
+        fetch(`${API_BASE_URL}/api/stats${cacheBuster}`, { method })
             .then(res => res.json())
             .then(data => {
-                viewsCountElement.textContent = data.views.toLocaleString();
+                const viewsEl = document.getElementById('views-count');
+                const pdfsEl = document.getElementById('pdfs-count');
+                const imagesEl = document.getElementById('images-count');
+
+                if (viewsEl) viewsEl.textContent = data.views.toLocaleString();
+                if (pdfsEl) pdfsEl.textContent = data.pdfs.toLocaleString();
+                if (imagesEl) imagesEl.textContent = data.images.toLocaleString();
             })
             .catch(err => {
-                console.error("Failed to fetch views", err);
-                viewsCountElement.textContent = "Error";
+                console.error("Failed to fetch stats", err);
+                const viewsEl = document.getElementById('views-count');
+                if (viewsEl && viewsEl.textContent === 'Loading...') {
+                    viewsEl.textContent = "Error";
+                }
             });
     }
+
+    // Call initially to register a page view
+    updateStats(true);
 });

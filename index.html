@@ -30,12 +30,23 @@
             </div>
             <div class="nav-links">
                 <a href="#about">About Developer</a>
-                <div class="view-counter">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                    </svg>
-                    <span id="views-count">Loading...</span> Views
+                <div class="view-counter" style="display: flex; gap: 1rem;">
+                    <div title="Total Views" style="display: flex; align-items: center; gap: 0.3rem;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <span id="views-count">Loading...</span>
+                    </div>
+                    <div title="PDFs Compressed" style="display: flex; align-items: center; gap: 0.3rem;"
+                        class="stat-item">
+                        📄 <span id="pdfs-count">...</span>
+                    </div>
+                    <div title="Images Compressed" style="display: flex; align-items: center; gap: 0.3rem;"
+                        class="stat-item">
+                        🖼️ <span id="images-count">...</span>
+                    </div>
                 </div>
             </div>
         </div>
