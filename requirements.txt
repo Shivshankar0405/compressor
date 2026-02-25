@@ -5,3 +5,4 @@ pillow
 img2pdf
 pypdf2
 werkzeug
+pymupdf
